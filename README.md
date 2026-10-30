@@ -32,3 +32,34 @@ Exemple de sortie :
 - L'ordinateur doit être sur le même réseau (pas le wifi invité, pas de VPN actif).
 - Sur la télé : *Réglages > Réseau > Allumer avec Wi-Fi (WoWLAN)* activé.
 - Sinon, l'adresse IP s'affiche directement sur la télé : *Réglages > Réseau > Afficher les paramètres réseau*.
+
+# Nettoyer la télé (pubs, interface, lenteurs)
+
+`nettoyer_tv.py` se connecte à la télé par le wifi (ADB) et :
+
+- désactive les recommandations sponsorisées, l'économiseur d'écran Google et les rapports envoyés à Google ;
+- désactive des services qui tournent en fond pour rien (Play Jeux, impression, lecteur d'écran) ;
+- propose, appli par appli, de désinstaller les applis préinstallées que tu n'utilises pas ;
+- accélère les animations et vide les caches.
+
+Tout est réversible avec `--restaurer`. Les applis système sont désactivées, pas supprimées.
+
+## Préparation (une seule fois)
+
+1. Sur la télé : *Paramètres > Système > À propos*, clique 7 fois sur **Build**.
+2. *Paramètres > Système > Options pour les développeurs* : active **Débogage USB**.
+3. Sur l'ordinateur : installe **adb** (« Android SDK Platform-Tools », ou `brew install android-platform-tools` sur Mac).
+
+## Utilisation (Python 3.9+)
+
+```bash
+python3 nettoyer_tv.py               # simulation : affiche ce qui serait fait
+python3 nettoyer_tv.py --appliquer   # applique (demande confirmation pour chaque appli)
+python3 nettoyer_tv.py --restaurer   # annule tout
+```
+
+## Interface vraiment simple : mode « Applis uniquement »
+
+C'est le réglage officiel le plus efficace contre les pubs de l'accueil Google TV :
+*Paramètres > Comptes et connexion > ton compte Google > **Mode applis uniquement***.
+L'accueil n'affiche plus que tes applis, sans bannière sponsorisée ni suggestions.
